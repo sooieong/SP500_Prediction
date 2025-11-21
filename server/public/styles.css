@@ -1,0 +1,300 @@
+/* 전체 설정 */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,sans-serif;
+    background:#f4f7fb;
+    color:#0f172a;
+}
+
+.app-wrapper{
+    max-width:1200px;
+    margin:24px auto;
+    padding:0 16px;
+}
+
+/* 상단 영역 */
+.top-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:24px;
+}
+
+.brand-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+.brand-icon{
+    width:34px;height:34px;
+    background:#2563eb;
+    color:#fff;font-size:18px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+}
+.brand-text{
+    font-size:16px;font-weight:700;
+}
+
+/* 환율 카드 */
+.currency-card{
+    background:#fff;
+    border-radius:14px;
+    padding:10px 14px;
+    margin-top:4px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+.currency-icon{
+    width:32px;height:32px;background:#e0f2fe;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:50%;
+    color:#22c55e;font-size:18px;
+}
+.currency-title{font-size:11px;color:#64748b;}
+.currency-value{font-size:15px;font-weight:700;}
+.currency-change{font-size:11px;color:#16a34a;font-weight:700;}
+
+/* 언어 버튼 */
+.lang-button{
+    padding:8px 16px;
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    border-radius:999px;
+    cursor:pointer;
+    display:flex;align-items:center;gap:6px;
+    font-size:13px;font-weight:600;
+}
+
+/* 카드 공통 */
+.card{
+    background:#fff;
+    border-radius:18px;
+    padding:22px 24px;
+    box-shadow:0 10px 22px rgba(15,23,42,0.09);
+}
+
+/* 메인 레이아웃 */
+.main-row{
+    display:grid;
+    grid-template-columns:3fr 2fr;
+    gap:18px;
+}
+
+/* 차트 헤더 */
+.chart-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:12px;
+}
+.section-title{font-size:20px;font-weight:700;}
+.section-subtitle{font-size:13px;color:#64748b;margin-bottom:4px;}
+
+.time-toggle{
+    background:#e5edff;border-radius:999px;padding:3px;
+}
+.time-toggle button{
+    background:none;border:none;
+    font-size:12px;color:#64748b;
+    padding:4px 12px;border-radius:999px;
+    cursor:pointer;
+}
+.time-toggle button.active{
+    background:#fff;color:#2563eb;
+    box-shadow:0 2px 8px rgba(37,99,235,0.35);
+}
+
+/* 티커카드 */
+.ticker-card{
+    background:#f9fafb;
+    padding:10px 14px;
+    border-radius:14px;
+    margin-bottom:12px;
+}
+.ticker-name{
+    font-size:12px;color:#64748b;
+}
+.ticker-price{
+    font-size:20px;font-weight:700;
+}
+.ticker-change{
+    font-size:12px;color:#16a34a;font-weight:700;
+}
+
+/* 오른쪽 */
+.right-col{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+/* 도넛 범례 */
+.donut-legend{
+    display:flex;
+    justify-content:center;
+    gap:16px;
+    margin-top:12px;
+}
+.legend-item{
+    display:flex;align-items:center;gap:6px;
+    font-size:12px;
+}
+.legend-dot{
+    width:10px;height:10px;border-radius:50%;
+}
+
+/* 마켓 인디케이터 */
+.market-row{
+    display:flex;
+    justify-content:space-between;
+    background:#f9fafb;
+    border-radius:12px;
+    padding:10px 14px;
+    margin-bottom:8px;
+}
+.market-left{
+    display:flex;align-items:center;gap:10px;
+}
+.market-icon{
+    width:26px;height:26px;border-radius:50%;
+    color:#fff;display:flex;align-items:center;justify-content:center;
+}
+.red{background:#ef4444;}
+.green{background:#22c55e;}
+.blue{background:#3b82f6;}
+
+.market-title{
+    font-size:13px;font-weight:600;text-decoration:underline;
+    color:#2563eb;
+}
+.market-sub{
+    font-size:11px;color:#64748b;
+}
+.market-price{
+    font-size:14px;font-weight:700;
+}
+
+/* ... 앞부분은 그대로 (대시보드 스타일) ... */
+
+/* === Chatbot Widget === */
+.chat-toggle-btn{
+    position:fixed;
+    right:24px;
+    bottom:24px;
+    width:52px;height:52px;
+    border-radius:50%;
+    background:#2563eb;
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;
+    cursor:pointer;
+    box-shadow:0 10px 24px rgba(37,99,235,0.6);
+    z-index:1000;
+}
+
+.chat-widget{
+    position:fixed;
+    right:24px;
+    bottom:92px;
+    width:320px;
+    max-height:480px;
+    background:#ffffff;
+    border-radius:18px;
+    box-shadow:0 14px 34px rgba(15,23,42,0.4);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    z-index:1000;
+    display:none; /* 기본은 숨김 */
+}
+.chat-header{
+    background:#2563eb;
+    color:#fff;
+    padding:10px 14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:14px;
+}
+.chat-header button{
+    border:none;background:transparent;color:#fff;
+    font-size:18px;cursor:pointer;
+}
+.chat-messages{
+    padding:10px 12px;
+    flex:1;
+    overflow-y:auto;
+    background:#f9fafb;
+}
+.chat-message{
+    margin-bottom:8px;
+    font-size:13px;
+}
+.chat-message.user{
+    text-align:right;
+}
+.chat-bubble{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:12px;
+    max-width:80%;
+    line-height:1.35;
+}
+.chat-message.user .chat-bubble{
+    background:#2563eb;
+    color:#fff;
+}
+.chat-message.bot .chat-bubble{
+    background:#e5e7eb;
+    color:#111827;
+}
+.chat-input-area{
+    display:flex;
+    border-top:1px solid #e5e7eb;
+}
+.chat-input-area input{
+    flex:1;
+    border:none;
+    padding:8px 10px;
+    font-size:13px;
+    outline:none;
+}
+.chat-input-area button{
+    border:none;
+    background:#2563eb;
+    color:#fff;
+    padding:0 12px;
+    font-size:13px;
+    cursor:pointer;
+}
+
+/* === Chatbot Suggestions === */
+.chat-suggestions{
+    padding:6px 8px 10px;
+    border-top:1px solid #e5e7eb;
+    background:#f3f4f6;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+}
+.chat-suggestion-btn{
+    border:none;
+    border-radius:999px;
+    padding:4px 10px;
+    font-size:11px;
+    background:#e5edff;
+    color:#1d4ed8;
+    cursor:pointer;
+    white-space:nowrap;
+}
+.chat-suggestion-btn:hover{
+    background:#dbe5ff;
+}
+@media (max-width: 480px){
+    .chat-suggestions{
+        padding:6px;
+    }
+}

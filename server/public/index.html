@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Investment Portfolio Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app-wrapper">
+    <!-- 상단 영역 -->
+    <div class="top-row">
+        <div class="brand-area">
+            <div class="brand-icon">📊</div>
+            <div>
+                <div class="brand-text">Investment Portfolio</div>
+                <div class="currency-card">
+                    <div class="currency-icon">$</div>
+                    <div class="currency-info">
+                        <div class="currency-title">USD/KRW</div>
+                        <div class="currency-value">₩1,342.5</div>
+                        <div class="currency-change">▲ +12.30 (+0.92%)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="lang-button">
+            <span class="icon">🌐</span>
+            <span>한국어</span>
+        </button>
+    </div>
+
+    <!-- 메인 영역 -->
+    <div class="main-row">
+        <!-- 왼쪽: S&P 500 Chart -->
+        <div class="card">
+            <div class="chart-header">
+                <div>
+                    <div class="section-title">S&amp;P 500 Chart</div>
+                    <div class="section-subtitle">
+                        SPY ETF line chart (with prediction)
+                    </div>
+                </div>
+                <div class="time-toggle">
+                    <button>1W</button>
+                    <button>1M</button>
+                    <button>6M</button>
+                    <button class="active">1Y</button>
+                </div>
+            </div>
+
+            <div class="ticker-card">
+                <div class="ticker-name">SPDR S&amp;P 500 ETF Trust</div>
+                <div class="ticker-price">$452.18</div>
+                <div class="ticker-change">▲ +3.85 (+0.86%)</div>
+            </div>
+
+            <div class="line-chart-wrapper">
+                <canvas id="spyLineChart" height="260"></canvas>
+            </div>
+        </div>
+
+        <!-- 오른쪽: Company Weights + Market Indicators -->
+        <div class="right-col">
+            <!-- Company Weights -->
+            <div class="card">
+                <div class="section-title" style="font-size:16px;">
+                    Company Weights
+                </div>
+                <div class="section-subtitle">
+                    Portfolio distribution by company
+                </div>
+
+                <canvas id="weightsDonut" height="260"></canvas>
+                <div class="donut-legend" id="weightsLegend"></div>
+            </div>
+
+            <!-- Market Indicators -->
+            <div class="card">
+                <div class="section-title" style="font-size:16px;">
+                    Market Indicators
+                </div>
+
+                <div class="market-row">
+                    <div class="market-left">
+                        <div class="market-icon red">🥇</div>
+                        <div>
+                            <div class="market-title market-link">Gold Futures</div>
+                            <div class="market-sub">-28.10 (-0.69%)</div>
+                        </div>
+                    </div>
+                    <div class="market-value">
+                        <div class="market-price">$4028.40</div>
+                    </div>
+                </div>
+
+                <div class="market-row">
+                    <div class="market-left">
+                        <div class="market-icon green">📉</div>
+                        <div>
+                            <div class="market-title market-link">VIX Index</div>
+                            <div class="market-sub">+2.76 (+11.67%)</div>
+                        </div>
+                    </div>
+                    <div class="market-value">
+                        <div class="market-price">$26.42</div>
+                    </div>
+                </div>
+
+                <div class="market-row" style="margin-bottom:0;">
+                    <div class="market-left">
+                        <div class="market-icon blue">💵</div>
+                        <div>
+                            <div class="market-title market-link">Treasury ETF</div>
+                            <div class="market-sub">+0.06 (+0.07%)</div>
+                        </div>
+                    </div>
+                    <div class="market-value">
+                        <div class="market-price">$82.93</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 🔹 챗봇 위젯 -->
+<div class="chat-toggle-btn" id="chatToggleBtn">
+    💬
+</div>
+
+<div class="chat-widget" id="chatWidget">
+    <div class="chat-header">
+        <span>Portfolio Chatbot</span>
+        <button id="chatCloseBtn">×</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <!-- 메시지 들어오는 영역 -->
+    </div>
+    <!-- 🔹 추천 질문 영역 -->
+    <div class="chat-suggestions" id="chatSuggestions"></div>
+    <form class="chat-input-area" id="chatForm">
+        <input
+            type="text"
+            id="chatInput"
+            placeholder="포트폴리오나 시장에 대해 물어보세요..."
+            autocomplete="off"
+        />
+        <button type="submit">보내기</button>
+    </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
