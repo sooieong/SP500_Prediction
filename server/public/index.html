@@ -1,0 +1,226 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>Investment Portfolio Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- 날짜 처리용 luxon -->
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+
+  <!-- 날짜 어댑터 -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- 캔들 차트 플러그인 -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@3.3.0/dist/chartjs-chart-financial.min.js"></script>
+</head>
+
+<body>
+<div class="app-wrapper">
+    <!-- 상단 영역 -->
+    <div class="top-row">
+        <div class="brand-area">
+            <div class="brand-icon">📊</div>
+            <div>
+                <div class="brand-text" data-i18n="brandTitle">
+                    Investment Portfolio
+                </div>
+
+                <div class="currency-card">
+                    <div class="currency-icon">$</div>
+                    <div class="currency-info">
+                        <!-- USD/KRW 툴팁 추가 -->
+                        <div class="currency-title" data-i18n="currencyTitle">
+                            USD/KRW
+                        </div>
+                        <div class="currency-value">₩1,342.5</div>
+                        <div class="currency-change">▲ +12.30 (+0.92%)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="top-controls">
+            <!-- 언어 전환 버튼 -->
+            <button id="langToggle" class="top-toggle-btn">
+                <span class="icon">🌐</span>
+                <span id="langLabel">한국어</span>
+            </button>
+
+            <!-- 다크/라이트 전환 버튼 -->
+            <button id="themeToggle" class="top-toggle-btn">
+                <span id="themeIcon">🌞</span>
+                <span id="themeLabel">라이트</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 메인 영역 -->
+    <div class="main-row">
+        <!-- 왼쪽: S&P 500 Chart -->
+        <div class="card">
+            <div class="chart-header">
+                <div>
+                    <div
+                        class="section-title term-tooltip"
+                        data-i18n="spTitle"
+                        data-tooltip="S&P 500: 미국 증시에 상장된 대표 500개 대형 기업으로 구성된 지수입니다. 미국 주식시장의 전체 흐름을 대표하는 지표로 많이 사용됩니다."
+                    >
+                        S&amp;P 500 Chart
+                    </div>
+                    <div
+                        class="section-subtitle"
+                        data-i18n="spSubtitle"
+                    >
+                        SPY ETF line chart (with prediction)
+                    </div>
+                </div>
+
+                <!-- 기간 토글 툴팁 추가 -->
+                <div class="time-toggle">
+                <button data-i18n="time1w" data-range="1W">1W</button>
+                <button data-i18n="time1m" data-range="1M">1M</button>
+                <button data-i18n="time6m" data-range="6M">6M</button>
+                <button class="active" data-i18n="time1y" data-range="1Y">1Y</button>
+                </div>
+            </div>
+
+            <div class="ticker-card">
+                <div class="ticker-name">SPDR S&amp;P 500 ETF Trust</div>
+                <div class="ticker-price">$452.18</div>
+                <div class="ticker-change">▲ +3.85 (+0.86%)</div>
+            </div>
+
+            <div class="line-chart-wrapper">
+                <canvas id="spyLineChart" height="260"></canvas>
+            </div>
+        </div>
+
+        <!-- 오른쪽: Company Weights + Market Indicators -->
+        <div class="right-col">
+            <!-- Company Weights -->
+            <div class="card">
+                <div
+                    class="section-title term-tooltip"
+                    style="font-size:16px;"
+                    data-i18n="weightsTitle"
+                    data-tooltip="종목 비중: 전체 투자금 중에서 각 기업 또는 ETF가 차지하는 비율입니다. 한 종목 비중이 너무 크면 그 종목에 대한 의존도가 높아지고, 위험도도 함께 커질 수 있습니다."
+                >
+                    Company Weights
+                </div>
+                <div
+                    class="section-subtitle"
+                    data-i18n="weightsSubtitle"
+                >
+                    Portfolio distribution by company
+                </div>
+
+                <canvas id="weightsDonut" height="260"></canvas>
+                <div class="donut-legend" id="weightsLegend"></div>
+            </div>
+
+            <!-- Market Indicators -->
+            <div class="card">
+                <div
+                    class="section-title term-tooltip"
+                    style="font-size:16px;"
+                    data-i18n="marketTitle"
+                    data-tooltip="시장 지표: 금 선물, 변동성 지수(VIX), 국채 ETF처럼 시장의 위험도, 투자 심리, 안전자산 수요 등을 간접적으로 보여주는 지표들입니다."
+                >
+                    Market Indicators
+                </div>
+
+                <div class="market-row">
+                    <div class="market-left">
+                        <div class="market-icon red">🥇</div>
+                        <div>
+                            <div
+                                class="market-title market-link term-tooltip"
+                                data-i18n="marketGold"
+                                data-tooltip="금 선물: 미래의 금 가격을 미리 정해두고 거래하는 파생상품입니다. 인플레이션이나 금융 위기 때 가치 보존 수단으로 많이 활용됩니다."
+                            >
+                                Gold Futures
+                            </div>
+                            <div class="market-sub">-28.10 (-0.69%)</div>
+                        </div>
+                    </div>
+                    <div class="market-value">
+                        <div class="market-price">$4028.40</div>
+                    </div>
+                </div>
+
+                <div class="market-row">
+                    <div class="market-left">
+                        <div class="market-icon green">📉</div>
+                        <div>
+                            <div
+                                class="market-title market-link term-tooltip"
+                                data-i18n="marketVix"
+                                data-tooltip="VIX 지수(공포지수): 앞으로 30일간 S&P 500 지수의 변동성에 대한 시장의 기대 수준입니다. 값이 높을수록 투자자들이 불안해하고 있다는 뜻입니다."
+                            >
+                                VIX Index
+                            </div>
+                            <div class="market-sub">+2.76 (+11.67%)</div>
+                        </div>
+                    </div>
+                    <div class="market-value">
+                        <div class="market-price">$26.42</div>
+                    </div>
+                </div>
+
+                <div class="market-row" style="margin-bottom:0;">
+                    <div class="market-left">
+                        <div class="market-icon blue">💵</div>
+                        <div>
+                            <div
+                                class="market-title market-link term-tooltip"
+                                data-i18n="marketTreasury"
+                                data-tooltip="단기 국채 ETF: 만기가 짧은 국채에 투자하는 ETF입니다. 일반적으로 주식보다 변동성이 낮고, 비교적 안전한 자산으로 분류됩니다."
+                            >
+                                Treasury ETF
+                            </div>
+                            <div class="market-sub">+0.06 (+0.07%)</div>
+                        </div>
+                    </div>
+                    <div class="market-value">
+                        <div class="market-price">$82.93</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 🔹 챗봇 위젯 -->
+<div class="chat-toggle-btn" id="chatToggleBtn">
+    💬
+</div>
+
+<div class="chat-widget" id="chatWidget">
+    <div class="chat-header">
+        <span data-i18n="chatTitle">Portfolio Chatbot</span>
+        <button id="chatCloseBtn">×</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <!-- 메시지 들어오는 영역 -->
+    </div>
+    <!-- 🔹 추천 질문 영역 -->
+    <div class="chat-suggestions" id="chatSuggestions"></div>
+    <form class="chat-input-area" id="chatForm">
+        <input
+            type="text"
+            id="chatInput"
+            data-i18n-placeholder="chatPlaceholder"
+            placeholder="포트폴리오나 시장에 대해 물어보세요..."
+            autocomplete="off"
+        />
+        <button type="submit">보내기</button>
+    </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
