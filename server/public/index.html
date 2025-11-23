@@ -28,33 +28,45 @@
 
 <body>
 <div class="app-wrapper">
-    <!-- 상단 영역 -->
-    <div class="top-row">
-        <div class="brand-area">
-            <div class="brand-icon">📊</div>
-            <div>
-                <div class="brand-text" data-i18n="brandTitle">
-                    Investment Portfolio
-                </div>
+  <!-- 상단 영역 -->
+  <div class="top-row">
+    <!-- 왼쪽: 아이콘 + 제목 + 환율카드 -->
+    <div class="brand-area">
 
-                <div class="currency-card">
-                    <div class="currency-icon">$</div>
-                    <div class="currency-info">
-                        <!-- USD/KRW 툴팁 추가 -->
-                        <div class="currency-title" data-i18n="currencyTitle">
-                            USD/KRW
-                        </div>
-                        <div class="currency-value">₩1,342.5</div>
-                        <div class="currency-change">▲ +12.30 (+0.92%)</div>
-                    </div>
-                </div>
-            </div>
+      <!-- 📊 + Investment Portfolio 한 줄 -->
+      <div class="brand-top">
+        <div class="brand-icon">
+            <img src="메인.png" alt="trend icon" class="brand-icon-img" />
         </div>
+        <div class="brand-text" data-i18n="brandTitle">
+          Investment Portfolio
+        </div>
+      </div>
+
+      <!-- 그 아래 줄에 환율 카드 -->
+      <div class="currency-card">
+        <div class="currency-icon">$</div>
+        <div class="currency-info">
+          <!-- 🔹 첫 줄: USD/KRW + 환율을 한 줄에 -->
+          <div class="currency-top">
+            <span class="currency-title" data-i18n="currencyTitle">
+              USD/KRW
+            </span>
+            <span class="currency-value">₩1,342.5</span>
+          </div>
+
+          <!-- 🔹 둘째 줄: 변화율 -->
+          <div class="currency-change">▲ +12.30 (+0.92%)</div>
+        </div>
+      </div>
+
+    </div>
+
 
         <div class="top-controls">
             <!-- 언어 전환 버튼 -->
             <button id="langToggle" class="top-toggle-btn">
-                <!-- <span class="icon">🌐</span> -->
+                <img src="한영.png" class="lang-icon" alt="lang">
                 <span id="langLabel">한국어</span>
             </button>
 
@@ -73,9 +85,9 @@
             <div class="chart-header">
                 <div>
                     <div
-                        class="section-title term-tooltip"
-                        data-i18n="spTitle"
-                        data-tooltip="S&P 500: 미국 증시에 상장된 대표 500개 대형 기업으로 구성된 지수입니다. 미국 주식시장의 전체 흐름을 대표하는 지표로 많이 사용됩니다."
+                    class="section-title term-tooltip"
+                    data-i18n="spTitle"
+                    data-tooltip-key="spDesc"
                     >
                         S&amp;P 500 Chart
                     </div>
@@ -115,8 +127,7 @@
                     class="section-title term-tooltip"
                     style="font-size:16px;"
                     data-i18n="weightsTitle"
-                    data-tooltip="종목 비중: 전체 투자금 중에서 각 기업 또는 ETF가 차지하는 비율입니다. 한 종목 비중이 너무 크면 그 종목에 대한 의존도가 높아지고, 위험도도 함께 커질 수 있습니다."
-                >
+                    data-tooltip-key="weightsDesc"                >
                     Company Weights
                 </div>
                 <div
@@ -136,14 +147,14 @@
                     class="section-title term-tooltip"
                     style="font-size:16px;"
                     data-i18n="marketTitle"
-                    data-tooltip="시장 지표: 금 선물, 변동성 지수(VIX), 국채 ETF처럼 시장의 위험도, 투자 심리, 안전자산 수요 등을 간접적으로 보여주는 지표들입니다."
+                    data-tooltip-key="marketDesc"
                 >
                     Market Indicators
                 </div>
 
                 <div class="market-row">
                     <div class="market-left">
-                        <div class="market-icon red">
+                        <div class="market-icon">
                             <img src="금선물.png" alt="gold" class="market-icon-img" />
                         </div>
 
@@ -151,7 +162,7 @@
                             <div
                                 class="market-title market-link term-tooltip"
                                 data-i18n="marketGold"
-                                data-tooltip="금 선물: 미래의 금 가격을 미리 정해두고 거래하는 파생상품입니다. 인플레이션이나 금융 위기 때 가치 보존 수단으로 많이 활용됩니다."
+                                data-tooltip-key="goldDesc"
                             >
                                 Gold Futures
                             </div>
@@ -165,12 +176,14 @@
 
                 <div class="market-row">
                     <div class="market-left">
-                        <div class="market-icon green">📉</div>
+                        <div class="market-icon">
+                            <img src="공포지수.png" alt="vix" class="market-icon-img" />
+                        </div>
                         <div>
                             <div
                                 class="market-title market-link term-tooltip"
                                 data-i18n="marketVix"
-                                data-tooltip="VIX 지수(공포지수): 앞으로 30일간 S&P 500 지수의 변동성에 대한 시장의 기대 수준입니다. 값이 높을수록 투자자들이 불안해하고 있다는 뜻입니다."
+                                data-tooltip-key="vixDesc"
                             >
                                 VIX Index
                             </div>
@@ -184,12 +197,14 @@
 
                 <div class="market-row" style="margin-bottom:0;">
                     <div class="market-left">
-                        <div class="market-icon blue">💵</div>
+                        <div class="market-icon">
+                            <img src="단기채.png" alt="treasury" class="market-icon-img" />
+                        </div>
                         <div>
                             <div
                                 class="market-title market-link term-tooltip"
                                 data-i18n="marketTreasury"
-                                data-tooltip="단기 국채 ETF: 만기가 짧은 국채에 투자하는 ETF입니다. 일반적으로 주식보다 변동성이 낮고, 비교적 안전한 자산으로 분류됩니다."
+                                data-tooltip-key="treasuryDesc"
                             >
                                 Treasury ETF
                             </div>
