@@ -25,15 +25,31 @@ window.addEventListener("DOMContentLoaded", () => {
     const last5Closes = closes.slice(-5);
     const prevClose   = closes[closes.length - 6]; // 첫 날 시가
 
-    return last5Dates.map((date, i) => {
+    return last5Dates.map((dateStr, i) => {
+      // 날짜 → 숫자 타임스탬프
+      const dt = luxon.DateTime.fromISO(dateStr);
+      const x = dt.toMillis();
+
+      // 몸통: 시가 / 종가
       const open  = i === 0 ? prevClose : last5Closes[i - 1];
       const close = last5Closes[i];
+
+      const bodyHigh = Math.max(open, close);
+      const bodyLow  = Math.min(open, close);
+
+      // 🔹 꼬리 길이(얼마나 튀어나오게 할지) – 숫자 조절 가능
+      const wickSize = 1.5;   // 예: 1.5 포인트만큼 위/아래로 꼬리
+
+      // 고가/저가: 몸통보다 살짝 위/아래로
+      const high = bodyHigh + wickSize;  // 꼬리 위
+      const low  = bodyLow  - wickSize;  // 꼬리 아래
+
       return {
-        x: date,           // adapter-date-fns가 문자열 날짜를 파싱
-        o: open,
-        h: Math.max(open, close),
-        l: Math.min(open, close),
-        c: close,
+        x,
+        o: open,   // 시가 → 몸통
+        h: high,   // 고가 → 위 꼬리
+        l: low,    // 저가 → 아래 꼬리
+        c: close,  // 종가 → 몸통
       };
     });
   }
@@ -41,23 +57,31 @@ window.addEventListener("DOMContentLoaded", () => {
   // 1M / 6M / 1Y 라인 차트용 (더미)
   const lineDataByRange = {
     "1M": {
-      labels:    ["W1", "W2", "W3", "W4"],
+      labelsEn: ["W1", "W2", "W3", "W4"],
+      labelsKo: ["1주차", "2주차", "3주차", "4주차"],
       actual:    [420, 425, 430, 433],
       predicted: [421, 426, 431, 435],
     },
     "6M": {
-      labels:    ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"],
+      labelsEn: ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"],
+      labelsKo: ["6월", "7월", "8월", "9월", "10월", "11월"],
       actual:    [422, 425, 423, 427, 429, 433],
       predicted: [423, 426, 424, 428, 431, 436],
     },
     "1Y": {
-      labels:    ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov"],
+      labelsEn: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov"],
+      labelsKo: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월"],
       actual:    [406, 411, 415, 414, 419, 422, 425, 423, 427, 429, 433],
       predicted: [407, 413, 417, 416, 421, 424, 428, 426, 430, 432, 436],
     },
   };
 
+
   const ctxLine = document.getElementById("spyLineChart").getContext("2d");
+
+  function getLang() {
+    return localStorage.getItem("lang") || "ko";
+  }
 
   // 라인 차트용 그라디언트
   const gradient = ctxLine.createLinearGradient(0, 0, 0, 260);
@@ -77,6 +101,8 @@ window.addEventListener("DOMContentLoaded", () => {
   // 1주 캔들
   function createWeekCandlestick() {
     const weekOhlc = buildWeeklyOhlc(allDates, allCloses);
+    console.log("weekOhlc:", weekOhlc);   // 콘솔에서 값 한 번 확인
+
     if (!weekOhlc.length) return;
 
     destroyExistingChart();
@@ -87,37 +113,13 @@ window.addEventListener("DOMContentLoaded", () => {
         datasets: [
           {
             label: "1주 캔들",
-            data: weekOhlc, // [{x,o,h,l,c}, ...]
-            color: {
-              up: "#22c55e",
-              down: "#ef4444",
-              unchanged: "#9ca3af",
-            },
+            data: weekOhlc,
           },
         ],
       },
       options: {
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => {
-                const v = ctx.raw;
-                return `O:${v.o}  H:${v.h}  L:${v.l}  C:${v.c}`;
-              },
-            },
-          },
-        },
+        // 🔹 y축에만 달러 표시 붙이기
         scales: {
-          x: {
-            type: "time",
-            time: {
-              parser: "yyyy-MM-dd",
-              unit: "day",
-              tooltipFormat: "yyyy-MM-dd",
-              displayFormats: { day: "MM/dd" },
-            },
-          },
           y: {
             ticks: {
               callback: (v) => "$" + v,
@@ -128,17 +130,22 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+
+
   // 1M / 6M / 1Y 라인차트
   function createLineChart(rangeKey) {
     const data = lineDataByRange[rangeKey];
     if (!data) return;
+
+    const lang = getLang();
+    const labels = lang === "ko" ? data.labelsKo : data.labelsEn;
 
     destroyExistingChart();
 
     spyChart = new Chart(ctxLine, {
       type: "line",
       data: {
-        labels: data.labels,
+        labels: labels,
         datasets: [
           {
             label: "Actual",
@@ -490,9 +497,23 @@ window.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("theme", theme);
   }
 
+  // langToggleBtn.addEventListener("click", () => {
+  //   currentLang = currentLang === "ko" ? "en" : "ko";
+  //   applyLanguage(currentLang);
+  // });
   langToggleBtn.addEventListener("click", () => {
     currentLang = currentLang === "ko" ? "en" : "ko";
     applyLanguage(currentLang);
+
+    // 🔹 현재 활성화된 기간 버튼 기준으로 차트 다시 그림
+    const activeBtn = document.querySelector(".time-toggle button.active");
+    const activeRange = activeBtn?.getAttribute("data-range") || defaultRange;
+
+    if (activeRange === "1W") {
+      createWeekCandlestick();
+    } else {
+      createLineChart(activeRange);
+    }
   });
 
   themeToggleBtn.addEventListener("click", () => {
