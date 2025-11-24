@@ -140,7 +140,7 @@ body{
     white-space:nowrap;
 }
 
-/* 다크모드일 때 버튼 느낌 조금만 변경 */
+/* 다크모드일 때 버튼 느낌 변경 */
 body.dark-mode .top-toggle-btn{
     background:#0f172a;
 }
@@ -509,6 +509,36 @@ body.dark-mode .chat-messages{
   background:#0b1220;          /* 말풍선 뒤 배경 */
 }
 
+/* =========================
+   다크모드 - 챗봇 버튼
+========================= */
+body.dark-mode .chat-toggle-btn {
+    background: #455b8e;
+    color: #f8fafc;
+    border: 1px solid rgba(100, 150, 255, 0.35);
+
+    box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.65),
+        0 0 10px rgba(90, 140, 255, 0.20);
+    transition: 
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.12s ease;
+}
+
+/* Hover: 조금만 강조 */
+body.dark-mode .chat-toggle-btn:hover {
+    background: #141c2a; /* 아주 작은 대비 */
+    border-color: rgba(130, 180, 255, 0.45);
+
+    box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.75),
+        0 0 14px rgba(120, 170, 255, 0.28); /* 여전히 약한 글로우 */
+
+    transform: translateY(-1px);
+}
+
+
 /* 추천 질문 영역 */
 body.dark-mode .chat-suggestions{
   background:#0b1220;
@@ -628,4 +658,103 @@ body.dark-mode .chat-input-area button{
 /* Market Indicators 카드의 두 번째 아이콘(공포지수)만 둥글게 */
 .right-col > .card:nth-child(2) .market-row:nth-child(3) .market-icon-img {
     border-radius: 10px; 
+}
+
+
+/* === 라인차트 레전드를 차트 위 중앙에 배치 === */
+.line-chart-wrapper {
+  position: relative;
+}
+
+.line-legend {
+  position: absolute;
+  top: -10px;              /* 차트 위로 띄우기 */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* 레전드 아이템 */
+.line-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 원 스타일 */
+.line-legend-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid;
+}
+
+/* Actual */
+.line-legend-circle.actual {
+  border-color: #3b82f6;
+}
+
+/* Predicted (점선) */
+.line-legend-circle.predicted {
+  border-color: #ef4444;
+  border-style: dashed;
+}
+
+/* 다크모드 색상 자연스럽게 조정 */
+body.dark-mode .line-legend {
+  color: #e5e7eb;
+}
+
+
+/* 1주 캔들 레전드: 회색 캡슐 + 예측값 동그라미 */
+.line-legend-item.week-candle .week-pill {
+  width: 26px;
+  height: 16px;
+  border-radius: 999px;
+  background: #e5e7eb;       /* 연회색 박스 */
+  border: 1px solid #d1d5db; /* 살짝 테두리 */
+}
+
+.line-legend-item.week-candle span,
+.line-legend-item.week-pred span {
+  font-size: 13px;
+}
+
+/* 다크 모드에서 캡슐 컬러 */
+body.dark-mode .line-legend-item.week-candle .week-pill {
+  background: #1f2937;
+  border-color: #4b5563;
+}
+
+/* 회색 캡슐 */
+.week-pill {
+  width: 24px;
+  height: 14px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  border: 1px solid #d1d5db;
+  margin-right: 4px;    /* 🔥 1번 이미지와 동일한 거리 */
+}
+
+/* "1주 캔들" 텍스트 */
+.line-legend .week-label {
+  font-size: 13px;
+  margin-right: 4px;     /* 🔥 캡슐 ↔ 텍스트, 텍스트 ↔ 아이콘 간격을 1번처럼 맞춤 */
+}
+
+/* 빨간 예측 아이콘 */
+.week-pred-icon {
+  margin: 0 4px 0 0;     /* 🔥 1번 이미지 기준 가장 자연스러운 간격 */
+}
+
+
+/* 다크모드 */
+body.dark-mode .week-pill {
+  background: #1f2937;
+  border-color: #4b5563;
 }
