@@ -27,10 +27,10 @@ body{
   gap:8px;
 }
 
-.brand-top{
-  display:flex;
-  align-items:center;
-  gap:8px;                 /* 아이콘과 제목 사이 간격 */
+.brand-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 
@@ -47,7 +47,7 @@ body{
   width:100%;
   height:100%;
   display:block;
-  border-radius:10px;  /* 모서리 살짝 둥글게 (원하면 제거) */
+  border-radius:10px;
 }
 
 .brand-text{
@@ -73,12 +73,12 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
-    border-radius:50%;
+    border-radius:20%;
     color:#22c55e;
     font-size:18px;
 }
 
-/* 🔹 안쪽 레이아웃 */
+/* 안쪽 레이아웃 */
 .currency-info{
     display:flex;
     flex-direction:column;
@@ -92,13 +92,15 @@ body{
 }
 
 .currency-title{
-    font-size:13px;
-    color:#64748b;
+    font-size:13px;font-weight:600;text-decoration:underline;
+    color:#0f172a; 
+    text-decoration:none;
 }
 
 .currency-value{
-    font-size:18px;
-    font-weight:400;
+    font-size:14px;     /* 숫자 크기 ↓ */
+    font-weight:700;    /* 두께 ↑ */
+    color:#0f172a;      /* 가독성 좋은 진한색 */
 }
 
 .currency-change{
@@ -110,14 +112,14 @@ body{
 
 /* 언어 / 테마 버튼 공통 스타일 */
 .top-toggle-btn{
-    display:inline-flex;        /* inline-flex로 버튼 영역 정확히 잡힘 */
+    display:inline-flex;
     align-items:center;
     justify-content:center;
     gap:2px;
 
     padding:9px 14px; 
     padding-left: 10px !important;
-    height:40px;                /* 세로 고정 → 둥글둥글 */
+    height:40px;
     border-radius:999px;
 
     background:#2563eb;
@@ -128,13 +130,13 @@ body{
     border:none;
     cursor:pointer;
 
-    box-shadow:0 4px 12px rgba(37,99,235,0.25);
+    box-shadow:0 4px 12px rgba(37, 99, 235, 0.25);
 }
 
 .top-toggle-btn span{
     display:flex;            
-    align-items:center;      /* 세로 중앙 */
-    line-height:1;           /* 글자 줄간격 줄이기 */
+    align-items:center;
+    line-height:1;
     white-space:nowrap;
 }
 
@@ -148,8 +150,16 @@ body.dark-mode .top-toggle-btn{
     background:#fff;
     border-radius:18px;
     padding:22px 24px;
-    box-shadow:0 10px 22px rgba(15,23,42,0.09);
+    /* box-shadow:0 10px 22px rgba(15,23,42,0.09); */
+    box-shadow:0 10px 22px rgba(0,0,0,0.2);
+    border:1px solid transparent;  
 }
+
+/* Market Indicators 제목 아래 간격 늘리기 */
+.card .section-title[data-i18n="marketTitle"] {
+    margin-bottom: 14px;
+}
+
 
 /* 메인 레이아웃 */
 .main-row{
@@ -169,10 +179,10 @@ body.dark-mode .top-toggle-btn{
 
 .time-toggle{
     background:#e5edff;
-    border-radius:14px;   /* 더 각지게 */
-    padding:6px 8px;      /* 버튼들이 중앙에 오도록 여백 조정 */
+    border-radius:14px;
+    padding:6px 8px;
     display:flex;
-    align-items:center;    /* 수직 중앙정렬 */
+    align-items:center;
     gap:4px;
 }
 .time-toggle button{
@@ -180,11 +190,11 @@ body.dark-mode .top-toggle-btn{
     border:none;
     font-size:14px;
     color:#64748b;
-    padding:6px 14px;           /* 위/아래 여백 증가 → 중앙정렬 */
-    border-radius:10px;         /* 약간 각진 버튼 */
+    padding:6px 14px;
+    border-radius:10px;
     cursor:pointer;
     display:flex;
-    align-items:center;         /* 텍스트 수직 중앙 */
+    align-items:center;
     justify-content:center;
 }
 
@@ -192,7 +202,7 @@ body.dark-mode .top-toggle-btn{
     background:#fff;
     color:#2563eb;
     box-shadow:0 2px 8px rgba(37,99,235,0.35);
-    border-radius:10px;         /* 동그라미 → 각진 형태 */
+    border-radius:10px;
 }
 
 
@@ -213,12 +223,25 @@ body.dark-mode .top-toggle-btn{
     font-size:12px;color:#16a34a;font-weight:700;
 }
 
+
 /* 오른쪽 */
 .right-col{
     display:flex;
     flex-direction:column;
     gap:18px;
 }
+
+/* 오른쪽 컬럼에서 카드 순서 뒤집기 */
+/* Company Weights를 아래로 */
+.right-col > .card:nth-child(1) {
+  order: 2;
+}
+
+/* Market Indicators를 위로 */
+.right-col > .card:nth-child(2) {
+  order: 1;
+}
+
 
 /* 도넛 범례 */
 .donut-legend{
@@ -254,15 +277,9 @@ body.dark-mode .top-toggle-btn{
     height: 34px;
     display: flex;
     justify-content: center;
-    align-items: center;   /* 아이콘을 정확히 중앙 배치 */
+    align-items: center;
     border-radius: 10px;
-    background: #f5f7fa;   /* 흐린 배경 (원한다면 유지 or 제거 가능) */
-}
-
-.market-icon img {
-    width: 30px;           /* 아이콘 크기 통일 */
-    height: 30px;
-    object-fit: contain;
+    background: #f5f7fa;
 }
 
 .market-title{
@@ -272,6 +289,7 @@ body.dark-mode .top-toggle-btn{
 }
 .market-sub{
     font-size:11px;color:#64748b;
+    line-height: 1.2;
 }
 .market-price{
     font-size:14px;font-weight:700;
@@ -289,7 +307,7 @@ body.dark-mode .top-toggle-btn{
     display:flex;align-items:center;justify-content:center;
     font-size:22px;
     cursor:pointer;
-    box-shadow:0 10px 24px rgba(37,99,235,0.6);
+    box-shadow:0 6px 14px rgba(37, 99, 235, 0.25);
     z-index:1000;
 }
 
@@ -306,7 +324,7 @@ body.dark-mode .top-toggle-btn{
     flex-direction:column;
     overflow:hidden;
     z-index:1000;
-    display:none; /* 기본은 숨김 */
+    display:none;
 }
 .chat-header{
     background:#2563eb;
@@ -406,8 +424,9 @@ body.dark-mode{
 }
 
 body.dark-mode .card{
-    background:#020617;
-    box-shadow:0 10px 22px rgba(0,0,0,0.7);
+    background:#0b1220;
+    box-shadow:0 10px 22px rgba(0,0,0,0.55);
+    border:1px solid #1f2937;
 }
 
 body.dark-mode .currency-card,
@@ -422,18 +441,108 @@ body.dark-mode .market-sub{
     color:#94a3b8;
 }
 
+/* 다크모드에서 금선물 / 공포지수 / 단기채 텍스트 흰색으로 */
+body.dark-mode .market-title {
+  color: #e5e7eb;
+}
+
+body.dark-mode .market-sub {
+  color: #cbd5e1;
+}
+
+body.dark-mode .market-price {
+  color: #f1f5f9;
+}
+
+body.dark-mode .time-toggle {
+  background: #1e293b;
+}
+body.dark-mode .time-toggle button {
+  color: #cbd5e1;
+}
+
+body.dark-mode .time-toggle button.active {
+  background: #0f172a;
+  color: #60a5fa;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.55);
+}
+
+/* 언어/테마 버튼을 조금 더 밝게 */
+body.dark-mode .top-toggle-btn {
+  background: #1e293b;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.55);
+  color: #f8fafc;
+}
+
+/* 아이콘 좀 더 밝게 보이도록 */
+body.dark-mode #themeIcon img,
+body.dark-mode .lang-icon {
+  filter: brightness(1.25);
+}
+
+/* 다크모드에서 툴팁 색 조금 더 밝게 */
+body.dark-mode .term-tooltip::after{
+  background:#1f2937;
+  color:#f9fafb;
+  box-shadow:0 6px 16px rgba(0,0,0,0.6);
+}
+
+/* 말풍선 삼각형 색 같이 변경 */
+body.dark-mode .term-tooltip::before{
+  border-color:#1f2937 transparent transparent transparent;
+}
+
+body.dark-mode .currency-value {
+    color: #f8fafc;
+}
+
+/* =========================
+   다크모드 - 챗봇 색상
+========================= */
 body.dark-mode .chat-widget{
-    background:#020617;
-    color:#e5e7eb;
+  background:#0f172a;          /* 전체 박스 */
+  color:#e5e7eb;
+  border-color:#1e293b;
 }
 
 body.dark-mode .chat-messages{
-    background:#020617;
+  background:#0b1220;          /* 말풍선 뒤 배경 */
 }
 
+/* 추천 질문 영역 */
+body.dark-mode .chat-suggestions{
+  background:#0b1220;
+  border-top:1px solid #1e293b;
+}
+
+body.dark-mode .chat-suggestion-btn{
+  background:#1e293b;
+  color:#e5e7eb;
+  border:1px solid #334155;
+}
+
+/* 유저/봇 말풍선 */
+body.dark-mode .chat-message.user .chat-bubble{
+  background:#1d4ed8;
+  color:#f9fafb;
+}
 body.dark-mode .chat-message.bot .chat-bubble{
-    background:#1e293b;
-    color:#e5e7eb;
+  background:#020617;
+  color:#e5e7eb;
+  border:1px solid #1e293b;
+}
+
+/* 입력창 영역 */
+body.dark-mode .chat-input-area{
+  border-top:1px solid #1e293b;
+}
+body.dark-mode .chat-input-area input{
+  background:#020617;
+  color:#e5e7eb;
+}
+body.dark-mode .chat-input-area button{
+  background:#1d4ed8;
+  color:#ffffff;
 }
 
 
@@ -457,7 +566,7 @@ body.dark-mode .chat-message.bot .chat-bubble{
     color:#f9fafb;
     padding:6px 8px;
     border-radius:6px;
-    font-size:11px;
+    font-size:13px;
     line-height:1.4;
     white-space:normal;
     min-width:160px;
@@ -505,7 +614,7 @@ body.dark-mode .chat-message.bot .chat-bubble{
 /* 언어/테마 아이콘 공통 스타일 */
 #themeIcon img,
 .lang-icon {
-  width: 30px;   /* 필요하면 24~28px 사이에서 조절 */
+  width: 30px;
   height: 30px;
   display: block;
 }
@@ -514,4 +623,9 @@ body.dark-mode .chat-message.bot .chat-bubble{
 #langToggle {
   gap: 1px;
   padding-left: 8px !important;
+}
+
+/* Market Indicators 카드의 두 번째 아이콘(공포지수)만 둥글게 */
+.right-col > .card:nth-child(2) .market-row:nth-child(3) .market-icon-img {
+    border-radius: 10px; 
 }

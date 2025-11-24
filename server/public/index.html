@@ -6,18 +6,6 @@
   <link rel="stylesheet" href="styles.css" />
 
   <!-- 날짜 처리용 luxon -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script> -->
-
-  <!-- 날짜 어댑터 -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1"></script> -->
-
-  <!-- Chart.js -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script> -->
-
-  <!-- 캔들 차트 플러그인 -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@3.3.0/dist/chartjs-chart-financial.min.js"></script>  -->
-
-  <!-- 날짜 처리용 luxon -->
   <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -33,13 +21,13 @@
     <!-- 왼쪽: 아이콘 + 제목 + 환율카드 -->
     <div class="brand-area">
 
-      <!-- 📊 + Investment Portfolio 한 줄 -->
+      <!-- 📊 + 주토피아 한 줄 -->
       <div class="brand-top">
         <div class="brand-icon">
             <img src="메인.png" alt="trend icon" class="brand-icon-img" />
         </div>
         <div class="brand-text" data-i18n="brandTitle">
-          Investment Portfolio
+          주토피아
         </div>
       </div>
 
@@ -47,7 +35,7 @@
       <div class="currency-card">
         <div class="currency-icon">$</div>
         <div class="currency-info">
-          <!-- 🔹 첫 줄: USD/KRW + 환율을 한 줄에 -->
+          <!-- 첫 줄: USD/KRW + 환율을 한 줄에 -->
           <div class="currency-top">
             <span class="currency-title" data-i18n="currencyTitle">
               USD/KRW
@@ -55,7 +43,7 @@
             <span class="currency-value">₩1,342.5</span>
           </div>
 
-          <!-- 🔹 둘째 줄: 변화율 -->
+          <!-- 둘째 줄: 변화율 -->
           <div class="currency-change">▲ +12.30 (+0.92%)</div>
         </div>
       </div>
@@ -109,7 +97,10 @@
             </div>
 
             <div class="ticker-card">
-                <div class="ticker-name">SPDR S&amp;P 500 ETF Trust</div>
+                <div class="ticker-name" data-i18n="spyName"
+                >
+                SPDR S&amp;P 500 ETF Trust
+                </div>
                 <div class="ticker-price">$452.18</div>
                 <div class="ticker-change">▲ +3.85 (+0.86%)</div>
             </div>
@@ -129,12 +120,6 @@
                     data-i18n="weightsTitle"
                     data-tooltip-key="weightsDesc"                >
                     Company Weights
-                </div>
-                <div
-                    class="section-subtitle"
-                    data-i18n="weightsSubtitle"
-                >
-                    Portfolio distribution by company
                 </div>
 
                 <canvas id="weightsDonut" height="260"></canvas>
@@ -220,7 +205,7 @@
     </div>
 </div>
 
-<!-- 🔹 챗봇 위젯 -->
+<!-- 챗봇 위젯 -->
 <div class="chat-toggle-btn" id="chatToggleBtn">
     💬
 </div>
@@ -233,7 +218,7 @@
     <div class="chat-messages" id="chatMessages">
         <!-- 메시지 들어오는 영역 -->
     </div>
-    <!-- 🔹 추천 질문 영역 -->
+    <!-- 추천 질문 영역 -->
     <div class="chat-suggestions" id="chatSuggestions"></div>
     <form class="chat-input-area" id="chatForm">
         <input
@@ -243,7 +228,7 @@
             placeholder="포트폴리오나 시장에 대해 물어보세요..."
             autocomplete="off"
         />
-        <button type="submit">보내기</button>
+        <button type="submit" data-i18n="chatSend">보내기</button>
     </form>
 </div>
 
