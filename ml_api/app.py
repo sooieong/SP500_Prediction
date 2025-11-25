@@ -188,7 +188,7 @@ def build_prediction_line():
     # ---------------------------------------------
     origin_df1 = origin_df.copy()
     price_col = "y_target_log"
-    drop_cols = ["Unnamed: 0", price_col, "Date"]
+    # drop_cols = ["Unnamed: 0", price_col, "Date"]
 
     # origin_df에서 학습에 사용한 피처만 남김
     X_train_for_scaler = origin_df1[FEATURE_COLS].astype(float)
@@ -203,10 +203,7 @@ def build_prediction_line():
     # -----------------------------
     # 2. origin_df + sample_df 연결
     # -----------------------------
-    origin_sorted = origin_df.sort_values("Date").reset_index(drop=True)
-    origin_trimmed = origin_sorted.iloc[:-1].copy()   # 마지막 행 제거
-
-    df = pd.concat([origin_trimmed, sample_df], ignore_index=True)
+    df = pd.concat([origin_df, sample_df], ignore_index=True)
     df = df.sort_values("Date").reset_index(drop=True)
     # print(df.tail())
 
@@ -357,27 +354,73 @@ def load_log_df():
     return df
 
 # -------------------------------
-# 2) 날짜 비교 계산 함수
+# 2) 변동성 기준 날짜 비교 계산 함수
+#    - ^VIX_Volatility
+#    - GC=F_Volatility
+#    - SHY_Volatility
 # -------------------------------
-def calc_daily_change(log_df, base_date, compare_date):
-    target_cols = ["GC=F_Close", "^VIX_Close", "SHY_Close"]
+# def calc_daily_change(log_df, base_date, compare_date):
+#     target_cols = ["GC=F_Close", "^VIX_Close", "SHY_Close"]
+
+#     # 날짜 필터
+#     row_base = log_df.loc[log_df["Date"] == pd.to_datetime(base_date)]
+#     row_comp = log_df.loc[log_df["Date"] == pd.to_datetime(compare_date)]
+
+#     if row_base.empty:
+#         return {"error": f"{base_date} 데이터가 없습니다."}, 404
+#     if row_comp.empty:
+#         return {"error": f"{compare_date} 데이터가 없습니다."}, 404
+
+#     base_vals = row_base.iloc[0][target_cols].astype(float)
+#     comp_vals = row_comp.iloc[0][target_cols].astype(float)
+
+#     # 절대 변화량
+#     abs_change = {col: comp_vals[col] - base_vals[col] for col in target_cols}
+
+#     # 증감율 (변화율)
+#     pct_change = {}
+#     for col in target_cols:
+#         b = base_vals[col]
+#         c = comp_vals[col]
+#         if b == 0:
+#             pct_change[col] = None
+#         else:
+#             pct_change[col] = (c - b) / b * 100
+
+#     # 반올림
+#     abs_change = {k: round(v, 6) for k, v in abs_change.items()}
+#     pct_change = {k: round(v, 6) if v is not None else None for k, v in pct_change.items()}
+
+#     return {
+#         "base_date": base_date,
+#         "compare_date": compare_date,
+#         "base_values": base_vals.to_dict(),
+#         "compare_values": comp_vals.to_dict(),
+#         "abs_change": abs_change,
+#         "pct_change": pct_change
+#     }, 200
+def calc_volatility_change(log_df, base_date, compare_date):
+    target_cols = ["^VIX_Volatility", "GC=F_Volatility", "SHY_Volatility"]
 
     # 날짜 필터
-    row_base = log_df.loc[log_df["Date"] == pd.to_datetime(base_date)]
-    row_comp = log_df.loc[log_df["Date"] == pd.to_datetime(compare_date)]
+    base_date = pd.to_datetime(base_date)
+    compare_date = pd.to_datetime(compare_date)
+
+    row_base = log_df.loc[log_df["Date"] == base_date]
+    row_comp = log_df.loc[log_df["Date"] == compare_date]
 
     if row_base.empty:
-        return {"error": f"{base_date} 데이터가 없습니다."}, 404
+        return {"error": f"{base_date.date()} 데이터가 없습니다."}, 404
     if row_comp.empty:
-        return {"error": f"{compare_date} 데이터가 없습니다."}, 404
+        return {"error": f"{compare_date.date()} 데이터가 없습니다."}, 404
 
     base_vals = row_base.iloc[0][target_cols].astype(float)
     comp_vals = row_comp.iloc[0][target_cols].astype(float)
 
-    # 절대 변화량
+    # 절대 변화량 (compare - base)
     abs_change = {col: comp_vals[col] - base_vals[col] for col in target_cols}
 
-    # 증감율 (변화율)
+    # 변화율 (%)
     pct_change = {}
     for col in target_cols:
         b = base_vals[col]
@@ -385,20 +428,23 @@ def calc_daily_change(log_df, base_date, compare_date):
         if b == 0:
             pct_change[col] = None
         else:
-            pct_change[col] = (c - b) / b * 100
+            pct_change[col] = (c - b) / b * 100.0
 
     # 반올림
     abs_change = {k: round(v, 6) for k, v in abs_change.items()}
-    pct_change = {k: round(v, 6) if v is not None else None for k, v in pct_change.items()}
+    pct_change = {
+        k: round(v, 6) if v is not None else None for k, v in pct_change.items()
+    }
 
     return {
-        "base_date": base_date,
-        "compare_date": compare_date,
-        "base_values": base_vals.to_dict(),
-        "compare_values": comp_vals.to_dict(),
-        "abs_change": abs_change,
-        "pct_change": pct_change
+        "base_date": base_date.strftime("%Y-%m-%d"),
+        "compare_date": compare_date.strftime("%Y-%m-%d"),
+        "base_values": base_vals.to_dict(),     # 2025-11-06 변동성
+        "compare_values": comp_vals.to_dict(),  # 2025-11-07 변동성
+        "abs_change": abs_change,               # 변화량
+        "pct_change": pct_change                # 변화율(%)
     }, 200
+
 
 
 # -------------------------------
@@ -411,7 +457,7 @@ def daily_change():
 
     try:
         df = load_log_df()
-        result, status = calc_daily_change(df, base_date, compare_date)
+        result, status = calc_volatility_change(df, base_date, compare_date)
         return jsonify(result), status
     except Exception as e:
         return jsonify({"error": str(e)}), 500

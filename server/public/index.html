@@ -60,7 +60,7 @@
                 </div>
 
                 <!-- 둘째 줄: 변화율 -->
-                <!-- <div class="currency-change">▲ +12.30 (+0.92%)</div> -->
+                <!-- <div class="currency-change" id="usdkrw-change">▲ +12.30 (+0.92%)</div> -->
               </div>
             </div>
         </div>
@@ -196,36 +196,6 @@
 
                 <div class="market-row">
                     <div class="market-left">
-                        <div class="market-icon">
-                            <img src="금선물.png" alt="gold" class="market-icon-img" />
-                        </div>
-
-                        <div>
-                            <!-- <div
-                                class="market-title market-link term-tooltip"
-                                data-i18n="marketGold"
-                                data-tooltip="금 선물: 미래의 금 가격을 미리 정해두고 거래하는 파생상품입니다. 인플레이션이나 금융 위기 때 가치 보존 수단으로 많이 활용됩니다."
-                            >
-                                Gold Futures
-                            </div> -->
-                            <div
-                                class="market-title market-link term-tooltip"
-                                data-i18n="marketGold"
-                                data-tooltip-key="goldDesc"
-                            >
-                                Gold Futures
-                            </div>
-
-                            <div class="market-sub term-tooltip" data-tooltip-key="marketChangeTip" id="gold-change">-28.10 (-0.69%)</div>
-                        </div>
-                    </div>
-                    <div class="market-value">
-                        <div class="market-price" id="gold-price">$4028.40</div>
-                    </div>
-                </div>
-
-                <div class="market-row">
-                    <div class="market-left">
                         <!-- <div class="market-icon green">📉</div> -->
                         <div class="market-icon">
                             <img src="공포지수.png" alt="vix" class="market-icon-img" />
@@ -243,14 +213,44 @@
                                 data-i18n="marketVix"
                                 data-tooltip-key="vixDesc"
                             >
-                                VIX Index
+                                VIX Index Volatility
                             </div>
 
-                            <div class="market-sub term-tooltip" data-tooltip-key="marketChangeTip" id="vix-change">+2.76 (+11.67%)</div>
+                            <div class="market-sub term-tooltip" data-tooltip-key="marketChangeTip" id="vix-change">-</div>
                         </div>
                     </div>
                     <div class="market-value">
                         <div class="market-price" id="vix-price">26.42%</div>
+                    </div>
+                </div>
+
+                <div class="market-row">
+                    <div class="market-left">
+                        <div class="market-icon">
+                            <img src="금선물.png" alt="gold" class="market-icon-img" />
+                        </div>
+
+                        <div>
+                            <!-- <div
+                                class="market-title market-link term-tooltip"
+                                data-i18n="marketGold"
+                                data-tooltip="금 선물: 미래의 금 가격을 미리 정해두고 거래하는 파생상품입니다. 인플레이션이나 금융 위기 때 가치 보존 수단으로 많이 활용됩니다."
+                            >
+                                Gold Futures
+                            </div> -->
+                            <div
+                                class="market-title market-link term-tooltip"
+                                data-i18n="marketGold"
+                                data-tooltip-key="goldDesc"
+                            >
+                                Gold Futures Volatility
+                            </div>
+
+                            <div class="market-sub term-tooltip" data-tooltip-key="marketChangeTip" id="gold-change">-</div>
+                        </div>
+                    </div>
+                    <div class="market-value">
+                        <div class="market-price" id="gold-price">$4028.40</div>
                     </div>
                 </div>
 
@@ -273,10 +273,10 @@
                                 data-i18n="marketTreasury"
                                 data-tooltip-key="treasuryDesc"
                             >
-                                Treasury ETF
+                                Treasury ETF Volatility
                             </div>
 
-                            <div class="market-sub term-tooltip" data-tooltip-key="marketChangeTip" id="shy-change">+0.06 (+0.07%)</div>
+                            <div class="market-sub term-tooltip" data-tooltip-key="marketChangeTip" id="shy-change">-</div>
                         </div>
                     </div>
                     <div class="market-value">

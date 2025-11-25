@@ -16,9 +16,9 @@ window.addEventListener("DOMContentLoaded", () => {
       time1m: "1M",
       time6m: "6M",
       time1y: "1Y",
-      marketGold: "Gold Futures",
-      marketVix: "VIX Index",
-      marketTreasury: "Treasury ETF",
+      marketGold: "2. Gold Futures Volatility",
+      marketVix: "1. VIX Index Volatility",
+      marketTreasury: "3. Treasury ETF Volatility",
       chatTitle: "Portfolio Chatbot",
       chatPlaceholder: "Ask about your portfolio or the market...",
       chartActual: "Actual",
@@ -34,11 +34,11 @@ window.addEventListener("DOMContentLoaded", () => {
       marketDesc:
         "Market indicators such as gold futures, the VIX, and short-term Treasury ETFs reflect overall market risk and investor sentiment.",
       goldDesc:
-        "Gold futures represent agreements to trade gold at a predetermined price in the future.",
+        "Gold futures volatility is calculated as the difference between the day’s high and low prices (High − Low), representing the daily price fluctuation of gold futures.",
       vixDesc:
-        "VIX Index shows expected volatility of S&P 500 over the next 30 days.",
+        "The VIX volatility index is the most influential indicator in our prediction model and typically moves inversely to SPY, meaning that a rise in VIX is interpreted as a signal of increased downside risk for SPY.",
       treasuryDesc:
-        "Short-term Treasury ETFs invest in low-risk government bonds with short maturity.",
+        "Short-term Treasury volatility is calculated as the difference between the day’s high and low prices (High − Low), reflecting shifts in short-term interest rates and demand for safe-haven assets.",
       marketChangeTip:
         "The first number is the actual change, and the number in parentheses is the percentage change.",
     },
@@ -53,9 +53,9 @@ window.addEventListener("DOMContentLoaded", () => {
       time1m: "1개월",
       time6m: "6개월",
       time1y: "1년",
-      marketGold: "금선물",
-      marketVix: "공포지수",
-      marketTreasury: "단기국채",
+      marketGold: "2. 금선물 변동성",
+      marketVix: "1. 공포지수 변동성",
+      marketTreasury: "3. 단기국채 변동성",
       chatTitle: "포트폴리오 챗봇",
       chatPlaceholder: "포트폴리오나 시장에 대해 물어보세요...",
       chartActual: "실제값",
@@ -70,13 +70,13 @@ window.addEventListener("DOMContentLoaded", () => {
       marketDesc:
         "시장 지표는 금 선물, 공포 지수(VIX), 단기국채 등으로 시장의 위험도와 투자 심리를 보여줍니다.",
       goldDesc:
-        "금 선물은 미래의 금 가격을 미리 정해두고 거래하는 파생상품입니다.",
+        "금 선물 변동성은 해당 일자에서 금 선물 가격의 고가와 저가 차이(High − Low)로 계산되며, 금 가격의 하루 변동 폭을 나타내는 지표입니다.",
       vixDesc:
-        "VIX 지수는 앞으로 30일간 S&P 500의 변동성에 대한 시장 기대치를 보여줍니다.",
+        "VIX 변동성 지수는 설계된 예측 모델에서 가장 영향력이 큰 지표이며, 일반적으로 SPY와 반대로 움직여 VIX 상승은 SPY 하락 위험 신호로 해석됩니다.",
       treasuryDesc:
-        "단기 국채 ETF는 만기가 짧은 국채에 투자하는 비교적 안전한 자산입니다.",
+        "단기 국채 변동성은 해당 일자의 고가와 저가 차이(High − Low)로 계산되며, 단기 금리 변화나 안전자산 수요 변화를 반영하는 지표입니다.",
       marketChangeTip:
-        "앞 숫자는 실제 증가·감소 금액, 괄호 안 숫자는 증감률(%)입니다.",
+        "앞 숫자는 실제 증가·감소 지수, 괄호 안 숫자는 증감률(%)입니다.",
     },
   };
 
@@ -633,10 +633,10 @@ window.addEventListener("DOMContentLoaded", () => {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // 네이버에서 환율 API 요청
+  // 공개 외환환율 API 서비스
   async function fetchUsdKrw() {
     try {
-      // 네이버 환율 API (실시간)
+      // 공개 외환환율 API 서비스
       const url = "https://api.manana.kr/exchange/rate/KRW/USD.json";
       const res = await fetch(url);
 
@@ -649,25 +649,25 @@ window.addEventListener("DOMContentLoaded", () => {
 
       // HTML 요소 업데이트
       const valueEl = document.getElementById("usdkrw-value");
-      const changeEl = document.getElementById("usdkrw-change");
+      // const changeEl = document.getElementById("usdkrw-change");
 
       valueEl.textContent = `₩${rate.toLocaleString()}`;
 
       // ▲ ▼ 방향 설정
-      if (change > 0) {
-        changeEl.textContent = `▲ +${change.toFixed(
-          2
-        )} (+${changePercent.toFixed(2)}%)`;
-        changeEl.style.color = "#ef4444"; // 빨강
-      } else if (change < 0) {
-        changeEl.textContent = `▼ ${change.toFixed(2)} (${changePercent.toFixed(
-          2
-        )}%)`;
-        changeEl.style.color = "#22c55e"; // 초록
-      } else {
-        changeEl.textContent = `- 0 (0%)`;
-        changeEl.style.color = "#999";
-      }
+      // if (change > 0) {
+      //   changeEl.textContent = `▲ +${change.toFixed(
+      //     2
+      //   )} (+${changePercent.toFixed(2)}%)`;
+      //   changeEl.style.color = "#ef4444"; // 빨강
+      // } else if (change < 0) {
+      //   changeEl.textContent = `▼ ${change.toFixed(2)} (${changePercent.toFixed(
+      //     2
+      //   )}%)`;
+      //   changeEl.style.color = "#22c55e"; // 초록
+      // } else {
+      //   changeEl.textContent = `- 0 (0%)`;
+      //   changeEl.style.color = "#999";
+      // }
     } catch (err) {
       console.error("달러환율 불러오기 실패:", err);
     }
@@ -730,17 +730,17 @@ window.addEventListener("DOMContentLoaded", () => {
   // });
 
   // 수상함
-  rangeButtons.forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const rangeKey = btn.getAttribute("data-range");
-      if (rangeKey === "1W") {
-        await createWeekCandlestick(); // ← 여기만 async/await
-      } else {
-        createLineChart(rangeKey);
-      }
-      setActiveButton(rangeKey);
-    });
-  });
+  // rangeButtons.forEach((btn) => {
+  //   btn.addEventListener("click", async () => {
+  //     const rangeKey = btn.getAttribute("data-range");
+  //     if (rangeKey === "1W") {
+  //       await createWeekCandlestick(); // ← 여기만 async/await
+  //     } else {
+  //       createLineChart(rangeKey);
+  //     }
+  //     setActiveButton(rangeKey);
+  //   });
+  // });
 
   // 최초 로드: 1주 라인차트
   // createLineChart(defaultRange);
@@ -766,6 +766,46 @@ window.addEventListener("DOMContentLoaded", () => {
   const colors = ["#5470C6", "#91CC75", "#FAC858", "#EE6666", "#73C0DE"];
   // const donutBgColor = "#f9fafb";
 
+  const sliceLabelPlugin = {
+    id: "sliceLabelPlugin",
+    afterDatasetsDraw(chart, args, pluginOptions) {
+      const { ctx } = chart;
+      const meta = chart.getDatasetMeta(0);
+      if (!meta) return;
+
+      ctx.save();
+      ctx.font =
+        "600 14px 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = isDarkMode() ? "#f9fafb" : "#0f172a";
+
+      meta.data.forEach((arc, index) => {
+        const value = chart.data.datasets[0].data[index];
+        if (value == null) return;
+
+        const angle = (arc.startAngle + arc.endAngle) / 2; // 조각 중앙 각도
+
+        // 반지름 중간값: (inner + outer) / 2
+        const innerRadius = arc.innerRadius;
+        const outerRadius = arc.outerRadius;
+        const r = innerRadius + (outerRadius - innerRadius) / 2;
+
+        // 차트 중심 좌표
+        const centerX = chart.chartArea.left + chart.width / 2;
+        const centerY = chart.chartArea.top + chart.height / 2;
+
+        // 각도 + 반지름을 이용해 좌표 계산
+        const x = centerX + Math.cos(angle) * r;
+        const y = centerY + Math.sin(angle) * r;
+
+        ctx.fillText(value + "%", x, y);
+      });
+
+      ctx.restore();
+    },
+  };
+
   weightsChart = new Chart(ctxDonut, {
     type: "doughnut",
     data: {
@@ -783,7 +823,7 @@ window.addEventListener("DOMContentLoaded", () => {
       ],
     },
     options: {
-      cutout: "68%",
+      cutout: "60%",
       rotation: -90,
       responsive: true,
       radius: "90%",
@@ -816,6 +856,7 @@ window.addEventListener("DOMContentLoaded", () => {
         },
       },
     },
+    plugins: [sliceLabelPlugin],
   });
 
   function updateDonutBorderColor() {
@@ -826,27 +867,139 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   const legendContainer = document.getElementById("weightsLegend");
-  companies.forEach((c, i) => {
-    const item = document.createElement("div");
-    item.className = "legend-item";
 
-    const dot = document.createElement("div");
-    dot.className = "legend-dot";
-    dot.style.backgroundColor = colors[i];
+  // companies.forEach((c, i) => {
+  //   const item = document.createElement("div");
+  //   item.className = "legend-item";
 
-    const label = document.createElement("span");
-    label.innerText = `${c} ${weights[i]}%`;
+  //   const dot = document.createElement("div");
+  //   dot.className = "legend-dot";
+  //   dot.style.backgroundColor = colors[i];
 
-    item.appendChild(dot);
-    item.appendChild(label);
-    legendContainer.appendChild(item);
-  });
+  //   const label = document.createElement("span");
+  //   label.innerText = `${c} ${weights[i]}%`;
+
+  //   item.appendChild(dot);
+  //   item.appendChild(label);
+  //   legendContainer.appendChild(item);
+  // });
+  // 변경: 레전드를 함수로 분리 + 언어별 기업명 사용 + 퍼센트 제거
+  function buildWeightsLegend() {
+    legendContainer.innerHTML = "";
+
+    const langForLegend = getLang();
+
+    companies.forEach((ticker, i) => {
+      const item = document.createElement("div");
+      item.className = "legend-item";
+
+      const dot = document.createElement("div");
+      dot.className = "legend-dot";
+      dot.style.backgroundColor = colors[i];
+
+      const label = document.createElement("span");
+
+      // 언어에 따라 기업명 선택
+      const displayName =
+        langForLegend === "ko" ? companyNamesKo[i] : companyNamesEn[i];
+
+      // ✅ 변경: 퍼센트 빼고 기업명만 표시
+      label.innerText = displayName;
+
+      item.appendChild(dot);
+      item.appendChild(label);
+      legendContainer.appendChild(item);
+    });
+  }
+  buildWeightsLegend();
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // GC=F / VIX / SHY 전일 대비 증감률 표시
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // // GC=F / VIX / SHY 전일 대비 증감률 표시
+  // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // async function fetchMarketDailyChange() {
+  //   try {
+  //     const res = await fetch("http://localhost:8000/daily-change");
+  //     if (!res.ok) {
+  //       console.error("daily-change API 에러:", res.status, await res.text());
+  //       return;
+  //     }
+
+  //     const data = await res.json();
+  //     console.log("daily-change 응답:", data);
+
+  //     const base = data.base_values || {};
+  //     const comp = data.compare_values || {};
+  //     const abs = data.abs_change || {};
+  //     const pct = data.pct_change || {};
+
+  //     // 공통 포맷터: 변화값 + 변화율 텍스트
+  //     function formatChange(absVal, pctVal) {
+  //       if (absVal == null || pctVal == null) return "-";
+  //       const absNum = Number(absVal);
+  //       const pctNum = Number(pctVal);
+
+  //       const signAbs = absNum > 0 ? "+" : absNum < 0 ? "" : "";
+  //       const signPct = pctNum > 0 ? "+" : pctNum < 0 ? "" : "";
+
+  //       return `${signAbs}${absNum.toFixed(2)} (${signPct}${pctNum.toFixed(
+  //         2
+  //       )}%)`;
+  //     }
+
+  //     function setMarketRow(symbolKey, priceElId, changeElId) {
+  //       const priceEl = document.getElementById(priceElId);
+  //       const changeEl = document.getElementById(changeElId);
+  //       if (!priceEl || !changeEl) return;
+
+  //       const latestPrice = comp[symbolKey];
+  //       const absVal = abs[symbolKey];
+  //       const pctVal = pct[symbolKey];
+
+  //       // 가격 표시 방식 분기
+  //       if (latestPrice != null) {
+  //         if (symbolKey === "^VIX_Close") {
+  //           // 🔹 VIX는 백엔드 데이터가 "단순 지수" 형태이므로 % 단위로 표시
+  //           priceEl.textContent = `${Number(latestPrice).toFixed(2)}%`;
+  //         } else {
+  //           // 🔹 금(GC=F), SHY는 가격 → $ 단위
+  //           priceEl.textContent = `$${Number(latestPrice).toFixed(2)}`;
+  //         }
+  //       } else {
+  //         priceEl.textContent = "-";
+  //       }
+
+  //       // 변화 텍스트 설정
+  //       changeEl.textContent = formatChange(absVal, pctVal);
+
+  //       // 색상: + 빨강 / - 파랑
+  //       let color = "";
+  //       if (pctVal != null && !Number.isNaN(Number(pctVal))) {
+  //         const pctNum = Number(pctVal);
+  //         if (pctNum > 0) {
+  //           color = "#ef4444"; // 빨강
+  //         } else if (pctNum < 0) {
+  //           color = "#2563eb"; // 파랑
+  //         }
+  //       }
+  //       changeEl.style.color = color;
+  //     }
+
+  //     // 매핑: GC=F_Close → gold, ^VIX_Close → vix, SHY_Close → shy
+  //     setMarketRow("GC=F_Close", "gold-price", "gold-change");
+  //     setMarketRow("^VIX_Close", "vix-price", "vix-change");
+  //     setMarketRow("SHY_Close", "shy-price", "shy-change");
+  //   } catch (err) {
+  //     console.error("daily-change 데이터 불러오기 실패:", err);
+  //   }
+  // }
+
+  // fetchMarketDailyChange();
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // GC=F / VIX / SHY 전일 대비 변동성 증감률 표시  (변동성 기준으로 수정됨)
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   async function fetchMarketDailyChange() {
     try {
       const res = await fetch("http://localhost:8000/daily-change");
@@ -863,7 +1016,7 @@ window.addEventListener("DOMContentLoaded", () => {
       const abs = data.abs_change || {};
       const pct = data.pct_change || {};
 
-      // 공통 포맷터: 변화값 + 변화율 텍스트
+      // 변화값 + 변화율 텍스트
       function formatChange(absVal, pctVal) {
         if (absVal == null || pctVal == null) return "-";
         const absNum = Number(absVal);
@@ -877,48 +1030,39 @@ window.addEventListener("DOMContentLoaded", () => {
         )}%)`;
       }
 
-      function setMarketRow(symbolKey, priceElId, changeElId) {
-        const priceEl = document.getElementById(priceElId);
+      function setMarketRow(symbolKey, valueElId, changeElId) {
+        const valueEl = document.getElementById(valueElId);
         const changeEl = document.getElementById(changeElId);
-        if (!priceEl || !changeEl) return;
+        if (!valueEl || !changeEl) return;
 
-        const latestPrice = comp[symbolKey];
+        const latestVal = comp[symbolKey];
         const absVal = abs[symbolKey];
         const pctVal = pct[symbolKey];
 
-        // 가격 표시 방식 분기
-        if (latestPrice != null) {
-          if (symbolKey === "^VIX_Close") {
-            // 🔹 VIX는 백엔드 데이터가 "단순 지수" 형태이므로 % 단위로 표시
-            priceEl.textContent = `${Number(latestPrice).toFixed(2)}%`;
-          } else {
-            // 🔹 금(GC=F), SHY는 가격 → $ 단위
-            priceEl.textContent = `$${Number(latestPrice).toFixed(2)}`;
-          }
+        // 변동성은 % 단위가 아니라 '지표값' 형태 → 소수 2자리
+        if (latestVal != null) {
+          valueEl.textContent = Number(latestVal).toFixed(2);
         } else {
-          priceEl.textContent = "-";
+          valueEl.textContent = "-";
         }
 
-        // 변화 텍스트 설정
+        // 변화 텍스트 표시
         changeEl.textContent = formatChange(absVal, pctVal);
 
         // 색상: + 빨강 / - 파랑
         let color = "";
         if (pctVal != null && !Number.isNaN(Number(pctVal))) {
           const pctNum = Number(pctVal);
-          if (pctNum > 0) {
-            color = "#ef4444"; // 빨강
-          } else if (pctNum < 0) {
-            color = "#2563eb"; // 파랑
-          }
+          if (pctNum > 0) color = "#ef4444";
+          else if (pctNum < 0) color = "#2563eb";
         }
         changeEl.style.color = color;
       }
 
-      // 매핑: GC=F_Close → gold, ^VIX_Close → vix, SHY_Close → shy
-      setMarketRow("GC=F_Close", "gold-price", "gold-change");
-      setMarketRow("^VIX_Close", "vix-price", "vix-change");
-      setMarketRow("SHY_Close", "shy-price", "shy-change");
+      // 매핑 수정: 변동성 기준
+      setMarketRow("GC=F_Volatility", "gold-price", "gold-change");
+      setMarketRow("^VIX_Volatility", "vix-price", "vix-change");
+      setMarketRow("SHY_Volatility", "shy-price", "shy-change");
     } catch (err) {
       console.error("daily-change 데이터 불러오기 실패:", err);
     }
@@ -1312,17 +1456,18 @@ window.addEventListener("DOMContentLoaded", () => {
     document.documentElement.lang = lang === "ko" ? "ko" : "en";
     langLabel.textContent = lang === "ko" ? "한국어" : "English";
     localStorage.setItem("lang", lang);
+    buildWeightsLegend();
 
     // 현재 활성 구간에 맞게 레전드 텍스트 다시 렌더
     const activeBtn =
       document.querySelector(".time-toggle button.active") || rangeButtons[0];
     const activeRange = activeBtn?.getAttribute("data-range") || defaultRange;
 
-    if (activeRange === "1W") {
-      renderWeekLegend();
-    } else {
-      renderLineLegend();
-    }
+    // if (activeRange === "1W") {
+    // createWeekCandlestick();
+    // } else {
+    // renderLineLegend();
+    // }
   }
 
   // 페이지 로딩 시 저장된 테마 불러오기
