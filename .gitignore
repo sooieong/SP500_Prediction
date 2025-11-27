@@ -1,0 +1,8 @@
+# node 서버 관련
+server/node_modules/
+server/.env
+
+# OS / 에디터 잡파일들
+.DS_Store
+Thumbs.db
+.vscode/
