@@ -6,7 +6,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const i18n = {
     en: {
-      brandTitle: "Jootopia",
+      brandTitle: "Jutopia",
       currencyTitle: "USD/KRW",
       spTitle: "S&P 500 Chart",
       spSubtitle: "SPY ETF line chart (with prediction)",
